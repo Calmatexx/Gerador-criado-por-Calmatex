@@ -27,6 +27,9 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:1s}
 .btn:hover::before{left:100%}
 .btn:hover{transform:scale(1.08);box-shadow:0 0 60px var(--glow)}
+.btn.loading{pointer-events:none;opacity:0.7}
+.btn.loading::after{content:'';position:absolute;top:50%;left:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border:3px solid transparent;border-top:3px solid #fff;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 #resultado{display:none;background:rgba(5,5,30,.9);border-radius:25px;padding:35px;border:3px solid var(--p);margin-top:30px;box-shadow:0 0 60px var(--glow);animation:reveal 1s ease-out}
 @keyframes reveal{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
 .item{display:flex;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--glow);font-size:1.4rem;color:var(--p);text-shadow:0 0 10px var(--p);animation:glitch 3s infinite, slideIn 0.8s ease-out forwards;opacity:0}
@@ -40,17 +43,19 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .copy{background:linear-gradient(45deg,var(--p),var(--s));color:#000;padding:10px 18px;border-radius:10px;font-size:1rem;margin-left:15px;cursor:pointer;transition:.3s;font-weight:bold}
 .copy:hover{transform:scale(1.15);box-shadow:0 0 20px #fff}
 .boton-info,.dpi-info{margin-top:30px;padding:25px;background:rgba(0,255,234,.1);border:2px solid var(--glow);border-radius:20px;text-align:center;animation:fadeIn 2s ease-out}
-.copy-all-btn{display:block;margin:40px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
-.copy-all-btn:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
+.copy-all-btn,.share-btn{display:block;margin:20px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
+.copy-all-btn:hover,.share-btn:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
 .music-player{position:fixed;top:20px;right:20px;z-index:10;width:200px;text-align:center}
 .disk{position:relative;width:120px;height:120px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 30% 30%,#00ffea,#000);box-shadow:0 0 40px var(--glow);animation:rotate 15s linear infinite;cursor:pointer}
 .disk::before{content:'';position:absolute;inset:15px;border-radius:50%;background:#000;box-shadow:inset 0 0 30px #000}
 .disk::after{content:'CALMATEX';position:absolute;inset:0;color:var(--p);font-family:Orbitron,sans-serif;font-size:1rem;font-weight:900;animation:rotate 15s linear reverse infinite;display:flex;align-items:center;justify-content:center;text-shadow:0 0 15px var(--glow)}
 .play-triangle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:25px solid #ff0000;border-top:15px solid transparent;border-bottom:15px solid transparent;z-index:2}
-.controls{margin-top:15px;display:flex;justify-content:center;gap:20px}
+.controls{margin-top:15px;display:flex;justify-content:center;gap:20px;align-items:center}
 .ctrl-btn{width:45px;height:45px;border-radius:50%;background:#000;border:2px solid var(--glow);box-shadow:0 0 20px var(--glow);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--p);cursor:pointer;transition:.3s}
 .ctrl-btn:hover{transform:scale(1.2);box-shadow:0 0 40px var(--glow)}
 .ctrl-btn.playing{animation:pulse 1.5s infinite}
+.volume-control input[type=range]{width:80px;height:6px;background:rgba(255,255,255,.2);border-radius:5px;outline:none;-webkit-appearance:none}
+.volume-control input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--p);border-radius:50%;box-shadow:0 0 15px var(--glow);cursor:pointer}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,var(--p),var(--s));color:#000;padding:18px 40px;border-radius:15px;font-weight:bold;font-size:1.2rem;z-index:1000;opacity:0;transition:opacity .4s .5s,transform .5s}
 .toast.show{opacity:1}
 @keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
@@ -69,6 +74,7 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
     <div class="ctrl-btn" id="prev">«</div>
     <div class="ctrl-btn" id="play">▶</div>
     <div class="ctrl-btn" id="next">»</div>
+    <div class="volume-control"><input type="range" id="volume" min="0" max="100" value="50"></div>
   </div>
 </div>
 <audio id="audio" loop></audio>
@@ -107,6 +113,7 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
     <div class="boton-info" id="boton-info"></div>
     <div class="dpi-info" id="dpi-info"></div>
     <button class="copy-all-btn" id="copy-all">COPIAR TODO</button>
+    <button class="share-btn" id="share-wa">COMPARTIR POR WHATSAPP</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -119,6 +126,7 @@ const disk = document.getElementById('disk');
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
+const volumeSlider = document.getElementById('volume');
 let playing = false;
 
 function loadTrack(index) {
@@ -151,9 +159,12 @@ playBtn.addEventListener('click', () => {
 
 disk.addEventListener('click', () => playBtn.click());
 
-loadTrack(currentTrack);
+volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value / 100);
 
-/* Sensibilidad código igual */
+loadTrack(currentTrack);
+audio.volume = volumeSlider.value / 100;
+
+/* Sensibilidad código */
 const base={mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}}};
 const mods={equi:{},rush:{g:15,p:20,x2:18,x4:15,f:10,c:25,btn:{tam:-5,op:5}},hs:{g:-5,p:10,x2:8,x4:5,f:15,c:-10,btn:{tam:-3,op:3}},camp:{g:-10,p:-15,x2:-12,x4:-10,f:5,c:-20,btn:{tam:5,op:-5}}};
 const expMods={baja:{g:-15,p:-20,x2:-18,x4:-15,f:-20,c:-25,btn:{tam:8,op:-8}},media:{},alta:{g:15,p:20,x2:18,x4:15,f:20,c:25,btn:{tam:-6,op:6}}};
@@ -176,23 +187,29 @@ function genSensi(m,e,xp){
   return {g:s.g,p:s.p,x2:s.x2,x4:s.x4,f:s.f,c:s.c,dpi:b.dpi,btn:bt};
 }
 function gen(){
-  const m=document.getElementById('modelo').value;
-  const e=document.getElementById('estilo').value;
-  const xp=document.getElementById('experiencia').value;
-  const s=genSensi(m,e,xp);
-  let html='';
-  const vals = [s.g,s.p,s.x2,s.x4,s.f,s.c];
-  labels.forEach((l,i)=>{
-    html+=`<div class="item" style="transform:translateX(-50px)"><span>${l}</span><span>${vals[i]} <span class="copy" onclick="copy(${vals[i]})">COPIAR</span></span></div>`;
-  });
-  document.getElementById('lista').innerHTML=html;
-  document.getElementById('boton-info').innerHTML=`<h3 style="color:var(--p)">Botón Disparo</h3><div class="item"><span>Lado / Tamaño / Opacidad</span><span>${s.btn.lado} / ${s.btn.tam} / ${s.btn.op}% <span class="copy" onclick="copyBot('${s.btn.lado} | ${s.btn.tam} | ${s.btn.op}')">COPIAR</span></span></div>`;
-  document.getElementById('dpi-info').innerHTML=`DPI: ${s.dpi} <span class="copy" onclick="copy(${s.dpi})">COPIAR</span>`;
-  document.getElementById('resultado').style.display='block';
+  const genBtn = document.getElementById('gen');
+  genBtn.classList.add('loading');
+  setTimeout(() => {
+    const m=document.getElementById('modelo').value;
+    const e=document.getElementById('estilo').value;
+    const xp=document.getElementById('experiencia').value;
+    const s=genSensi(m,e,xp);
+    let html='';
+    const vals = [s.g,s.p,s.x2,s.x4,s.f,s.c];
+    labels.forEach((l,i)=>{
+      html+=`<div class="item" style="transform:translateX(-50px)"><span>${l}</span><span>${vals[i]} <span class="copy" onclick="copy(${vals[i]})">COPIAR</span></span></div>`;
+    });
+    document.getElementById('lista').innerHTML=html;
+    document.getElementById('boton-info').innerHTML=`<h3 style="color:var(--p)">Botón Disparo</h3><div class="item"><span>Lado / Tamaño / Opacidad</span><span>${s.btn.lado} / ${s.btn.tam} / ${s.btn.op}% <span class="copy" onclick="copyBot('${s.btn.lado} | ${s.btn.tam} | ${s.btn.op}')">COPIAR</span></span></div>`;
+    document.getElementById('dpi-info').innerHTML=`DPI: ${s.dpi} <span class="copy" onclick="copy(${s.dpi})">COPIAR</span>`;
+    document.getElementById('resultado').style.display='block';
+    genBtn.classList.remove('loading');
+  }, 800);
 }
 function copy(v){navigator.clipboard.writeText(v);toast('Copiado!');}
 function copyBot(v){navigator.clipboard.writeText(v);toast('Botón copiado!');}
 document.getElementById('copy-all').onclick=()=>{navigator.clipboard.writeText(currentConfig);toast('Todo copiado!');};
+document.getElementById('share-wa').onclick=()=>{const text=encodeURIComponent(currentConfig);window.open(`https://wa.me/?text=${text}`, '_blank');toast('Abriendo WhatsApp!');};
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 document.getElementById('gen').addEventListener('click',gen);
 </script>
