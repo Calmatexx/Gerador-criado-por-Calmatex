@@ -42,27 +42,33 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .boton-info,.dpi-info{margin-top:30px;padding:25px;background:rgba(0,255,234,.1);border:2px solid var(--glow);border-radius:20px;text-align:center;animation:fadeIn 2s ease-out}
 .copy-all-btn{display:block;margin:40px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
 .copy-all-btn:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
-.music-player{position:fixed;top:20px;left:20px;z-index:10;width:70px;height:70px;border-radius:50%;background:linear-gradient(45deg,var(--p),var(--s));box-shadow:0 0 30px var(--glow);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;animation:pulse 2s infinite}
-.music-player:hover{transform:scale(1.2)}
-#play-icon{font-size:3rem;color:#000}
+.music-controls{position:fixed;top:20px;left:20px;z-index:10;display:flex;gap:10px;align-items:center}
+.music-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(45deg,var(--p),var(--s));box-shadow:0 0 25px var(--glow);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;font-size:2.5rem;color:#000}
+.music-btn:hover{transform:scale(1.15)}
+.music-btn.playing{animation:pulse 1.5s infinite}
+.music-select{background:rgba(0,0,0,.7);padding:8px 12px;border-radius:15px;border:1px solid var(--glow);box-shadow:0 0 20px var(--glow)}
+.music-select select{background:rgba(0,0,0,.8);border:none;color:#fff;padding:6px 10px;border-radius:10px}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,var(--p),var(--s));color:#000;padding:18px 40px;border-radius:15px;font-weight:bold;font-size:1.2rem;z-index:1000;opacity:0;transition:opacity .4s .5s,transform .5s;animation:toastIn 0.5s forwards}
 .toast.show{animation:toastIn 0.5s forwards, toastOut 0.5s 1.5s forwards}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(-20px)}}
 @keyframes glitch{0%,100%{text-shadow:0 0 10px var(--p)}5%{text-shadow:4px 4px var(--s),-4px -4px var(--p)}10%{text-shadow:-4px -4px var(--s),4px 4px var(--p)}15%{text-shadow:0 0 20px var(--p)}}
-@keyframes pulse{0%,100%{box-shadow:0 0 30px var(--glow)}50%{box-shadow:0 0 60px var(--glow)}}
-@media(max-width:768px){.logo{font-size:3.5rem}.card{padding:25px}.music-player{width:60px;height:60px}#play-icon{font-size:2.5rem}}
+@keyframes pulse{0%,100%{box-shadow:0 0 25px var(--glow)}50%{box-shadow:0 0 50px var(--glow)}}
+@media(max-width:768px){.logo{font-size:3.5rem}.card{padding:25px}.music-controls{flex-direction:column;gap:8px}.music-btn{width:50px;height:50px;font-size:2rem}}
 </style>
 </head>
 <body>
 <div class="bg"></div>
-<div class="music-player" id="music-player">
-  <div id="play-icon">▶</div>
-  <audio id="audio" loop>
-    <source src="musica1.mp3" type="audio/mpeg">
-    <source src="musica2.mp3" type="audio/mpeg">
-  </audio>
+<div class="music-controls">
+  <div class="music-btn" id="play-btn">▶</div>
+  <div class="music-select">
+    <select id="track-select">
+      <option value="musica1.mp3">Música 1</option>
+      <option value="musica2.mp3">Música 2</option>
+    </select>
+  </div>
 </div>
+<audio id="audio" loop></audio>
 <div class="container">
   <h1 class="logo">CALMATEX</h1>
   <p class="subtitle">Generador Sensibilidad Free Fire 2026 - Futurista</p>
@@ -85,6 +91,11 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
       <option value="hs">Headshot</option>
       <option value="camp">Camper</option>
     </select>
+    <select id="experiencia">
+      <option value="baja">Experiencia Baja</option>
+      <option value="media">Experiencia Media</option>
+      <option value="alta">Experiencia Alta</option>
+    </select>
     <button class="btn" id="gen">GENERAR SENSI FUTURISTA</button>
   </div>
   <div id="resultado">
@@ -98,31 +109,23 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 <div class="toast" id="toast"></div>
 
 <script>
-const base={
-mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},
-note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},
-note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},
-s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},
-iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},
-pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},
-realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},
-a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},
-zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}}
-};
+const base={mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}}};
 const mods={equi:{},rush:{g:15,p:20,x2:18,x4:15,f:10,c:25,btn:{tam:-5,op:5}},hs:{g:-5,p:10,x2:8,x4:5,f:15,c:-10,btn:{tam:-3,op:3}},camp:{g:-10,p:-15,x2:-12,x4:-10,f:5,c:-20,btn:{tam:5,op:-5}}};
+const expMods={baja:{g:-15,p:-20,x2:-18,x4:-15,f:-20,c:-25,btn:{tam:8,op:-8}},media:{},alta:{g:15,p:20,x2:18,x4:15,f:20,c:25,btn:{tam:-6,op:6}}};
 const labels=['General','Precisión','Mira x2','Mira x4','Francotirador','Cámara Libre'];
 let last="", currentConfig="";
 function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function genSensi(m,e){
+function genSensi(m,e,xp){
   const b=base[m]||base.mi11;
-  const mod=mods[e]||{};
+  const modStyle=mods[e]||{};
+  const modExp=expMods[xp]||{};
   const k=['g','p','x2','x4','f','c'];
   let s={};
-  k.forEach(t=>{let v=Math.max(0,Math.min(200,Math.round(b[t]+(mod[t]||0)+rand(-10,10))));s[t]=v});
+  k.forEach(t=>{let v=Math.max(0,Math.min(200,Math.round(b[t]+(modStyle[t]||0)+(modExp[t]||0)+rand(-10,10))));s[t]=v});
   const str=Object.values(s).join(',');
-  if(str===last){return genSensi(m,e);}
+  if(str===last){return genSensi(m,e,xp);}
   last=str;
-  const bt={tam:Math.max(65,Math.min(85,Math.round(b.btn.tam+(mod.btn?.tam||0)+rand(-4,4)))),op:Math.max(70,Math.min(90,Math.round(b.btn.op+(mod.btn?.op||0)+rand(-3,3)))),lado:b.btn.lado};
+  const bt={tam:Math.max(65,Math.min(85,Math.round(b.btn.tam+(modStyle.btn?.tam||0)+(modExp.btn?.tam||0)+rand(-4,4)))),op:Math.max(70,Math.min(90,Math.round(b.btn.op+(modStyle.btn?.op||0)+(modExp.btn?.op||0)+rand(-3,3)))),lado:b.btn.lado};
   const full=`General: ${s.g} | Precisión: ${s.p} | x2: ${s.x2} | x4: ${s.x4} | Franco: ${s.f} | Cámara: ${s.c} | Botón: ${bt.lado} ${bt.tam} ${bt.op}% | DPI: ${b.dpi}`;
   currentConfig=full;
   return {g:s.g,p:s.p,x2:s.x2,x4:s.x4,f:s.f,c:s.c,dpi:b.dpi,btn:bt};
@@ -130,7 +133,8 @@ function genSensi(m,e){
 function gen(){
   const m=document.getElementById('modelo').value;
   const e=document.getElementById('estilo').value;
-  const s=genSensi(m,e);
+  const xp=document.getElementById('experiencia').value;
+  const s=genSensi(m,e,xp);
   let html='';
   const vals = [s.g,s.p,s.x2,s.x4,s.f,s.c];
   labels.forEach((l,i)=>{
@@ -147,12 +151,14 @@ document.getElementById('copy-all').onclick=()=>{navigator.clipboard.writeText(c
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 document.getElementById('gen').addEventListener('click',gen);
 
-// Música
-const player=document.getElementById('music-player');
+// Reproductor: botón play separado + selector al lado
 const audio=document.getElementById('audio');
-const icon=document.getElementById('play-icon');
+const trackSelect=document.getElementById('track-select');
+const playBtn=document.getElementById('play-btn');
 let playing=false;
-player.addEventListener('click',()=>{if(playing){audio.pause();icon.textContent='▶';}else{audio.play();icon.textContent='❚ ❚';}playing=!playing;});
+trackSelect.addEventListener('change',()=>{audio.src=trackSelect.value;if(playing){audio.play();}});
+playBtn.addEventListener('click',()=>{if(playing){audio.pause();playBtn.textContent='▶';playBtn.classList.remove('playing');}else{audio.play();playBtn.textContent='❚ ❚';playBtn.classList.add('playing');}playing=!playing;});
+audio.src=trackSelect.value;
 </script>
 </body>
 </html>
