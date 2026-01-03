@@ -18,8 +18,6 @@ body{font-family:Roboto,sans-serif;background:#000;min-height:100vh;overflow-x:h
 .subtitle{text-align:center;font-size:1.3rem;margin-bottom:50px;color:#aaa;text-shadow:0 0 10px var(--glow);animation:fadeIn 3s ease-out}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .card{background:rgba(10,10,40,.9);border-radius:25px;padding:40px;margin:30px 0;border:2px solid var(--glow);box-shadow:0 0 50px var(--glow);backdrop-filter:blur(15px);position:relative;overflow:hidden;animation:cardPulse 4s infinite}
-.card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,var(--p),var(--s),var(--p));opacity:.15;animation:rotate 20s linear infinite}
-@keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 @keyframes cardPulse{0%,100%{box-shadow:0 0 50px var(--glow)}50%{box-shadow:0 0 80px var(--glow)}}
 h2{font-family:Orbitron,sans-serif;color:var(--p);text-align:center;margin-bottom:30px;font-size:1.8rem;text-shadow:0 0 15px var(--glow);animation:glitchText 4s infinite}
 @keyframes glitchText{0%,100%{text-shadow:0 0 15px var(--glow)}2%{text-shadow:5px 5px var(--s),-5px -5px var(--p)}4%{text-shadow:-5px -5px var(--s),5px 5px var(--p)}6%{text-shadow:0 0 15px var(--glow)}}
@@ -118,11 +116,10 @@ function genSensi(m,e){
   const b=base[m]||base.mi11;
   const mod=mods[e]||{};
   const k=['g','p','x2','x4','f','c'];
-  let s={};let str="";
-  do{
-    k.forEach(t=>{let v=Math.max(0,Math.min(200,Math.round(b[t]+(mod[t]||0)+rand(-10,10))));s[t]=v});
-    str=Object.values(s).join(',');
-  }while(str===last && last!=="");
+  let s={};
+  k.forEach(t=>{let v=Math.max(0,Math.min(200,Math.round(b[t]+(mod[t]||0)+rand(-10,10))));s[t]=v});
+  const str=Object.values(s).join(',');
+  if(str===last){return genSensi(m,e);}
   last=str;
   const bt={tam:Math.max(65,Math.min(85,Math.round(b.btn.tam+(mod.btn?.tam||0)+rand(-4,4)))),op:Math.max(70,Math.min(90,Math.round(b.btn.op+(mod.btn?.op||0)+rand(-3,3)))),lado:b.btn.lado};
   const full=`General: ${s.g} | Precisión: ${s.p} | x2: ${s.x2} | x4: ${s.x4} | Franco: ${s.f} | Cámara: ${s.c} | Botón: ${bt.lado} ${bt.tam} ${bt.op}% | DPI: ${b.dpi}`;
@@ -134,8 +131,8 @@ function gen(){
   const e=document.getElementById('estilo').value;
   const s=genSensi(m,e);
   let html='';
+  const vals = [s.g,s.p,s.x2,s.x4,s.f,s.c];
   labels.forEach((l,i)=>{
-    const vals = [s.g,s.p,s.x2,s.x4,s.f,s.c];
     html+=`<div class="item" style="transform:translateX(-50px)"><span>${l}</span><span>${vals[i]} <span class="copy" onclick="copy(${vals[i]})">COPIAR</span></span></div>`;
   });
   document.getElementById('lista').innerHTML=html;
