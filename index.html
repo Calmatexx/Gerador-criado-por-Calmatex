@@ -6,7 +6,7 @@
 <title>CALMATEX - Sensibilidad Free Fire</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--p:#00ffea;--s:#ff00ff;--glow:rgba(0,255,234,.6);--glow2:rgba(255,0,255,.6)}
+:root{--p:#00ffea;--s:#ff00ff;--glow:rgba(0,255,234,.6)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Roboto,sans-serif;background:#000;min-height:100vh;overflow-x:hidden;position:relative;color:#ccc}
 .bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 70%,rgba(0,255,234,.2),transparent 50%),radial-gradient(circle at 70% 30%,rgba(255,0,255,.2),transparent 50%);pointer-events:none;z-index:0;animation:shift 20s linear infinite}
@@ -24,7 +24,7 @@ body{font-family:Roboto,sans-serif;background:#000;min-height:100vh;overflow-x:h
 h2{font-family:Orbitron,sans-serif;color:var(--p);text-align:center;margin-bottom:30px;font-size:1.8rem;text-shadow:0 0 15px var(--glow);animation:glitchText 4s infinite}
 @keyframes glitchText{0%,100%{text-shadow:0 0 15px var(--glow)}2%{text-shadow:5px 5px var(--s),-5px -5px var(--p)}4%{text-shadow:-5px -5px var(--s),5px 5px var(--p)}6%{text-shadow:0 0 15px var(--glow)}}
 select{width:100%;padding:16px;background:rgba(0,0,0,.8);border:2px solid var(--glow);border-radius:15px;color:#fff;margin-bottom:25px;font-size:1.2rem;box-shadow:0 0 20px var(--glow);transition:.3s}
-select:hover{box-shadow:0 0 30px var(--glow2)}
+select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .btn{display:block;width:100%;padding:20px;background:linear-gradient(180deg,var(--p),var(--s));border:none;border-radius:15px;color:#000;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;margin:30px 0;transition:.5s;box-shadow:0 0 30px var(--glow);font-weight:900;position:relative;overflow:hidden}
 .btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:1s}
 .btn:hover::before{left:100%}
@@ -61,7 +61,7 @@ select:hover{box-shadow:0 0 30px var(--glow2)}
 <div class="music-player" id="music-player">
   <div id="play-icon">▶</div>
   <audio id="audio" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="musica1.mp3" type="audio/mpeg">
   </audio>
 </div>
 <div class="container">
