@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CALMATEX - Sensibilidad Free Fire</title>
+<title>CALMATEX - Sensibilidad Free Fire 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--p:#00ffea;--s:#ff00ff;--glow:rgba(0,255,234,.8)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Roboto,sans-serif;background:#000;min-height:100vh;overflow-x:hidden;position:relative;color:#ccc}
 .bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 70%,rgba(0,255,234,.2),transparent 50%),radial-gradient(circle at 70% 30%,rgba(255,0,255,.2),transparent 50%);pointer-events:none;z-index:0;animation:shift 20s linear infinite}
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;background:var(--p);width:4px;height:4px;border-radius:50%;opacity:0;animation:particleFloat 8s infinite linear;box-shadow:0 0 15px var(--glow)}
+@keyframes particleFloat{0%{transform:translateY(100vh) scale(0);opacity:0}50%{opacity:0.8}100%{transform:translateY(-100px) scale(1);opacity:0}}
 @keyframes shift{0%{background-position:0 0}100%{background-position:100% 100%}}
 .container{max-width:1180px;margin:auto;padding:20px;position:relative;z-index:1}
-.logo{font-family:Orbitron,sans-serif;font-size:5rem;font-weight:900;background:linear-gradient(45deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin:60px 0;text-shadow:0 0 30px var(--glow);animation:neon 2s ease-in-out infinite alternate, float 6s ease-in-out infinite}
+.logo{font-family:Orbitron,sans-serif;font-size:5rem;font-weight:900;background:linear-gradient(45deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin:60px 0;text-shadow:0 0 30px var(--glow);animation:neon 2s ease-in-out infinite alternate,float 6s ease-in-out infinite}
 @keyframes neon{from{text-shadow:0 0 20px var(--glow)}to{text-shadow:0 0 40px var(--glow),0 0 60px var(--glow)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
 .subtitle{text-align:center;font-size:1.3rem;margin-bottom:50px;color:#aaa;text-shadow:0 0 10px var(--glow);animation:fadeIn 3s ease-out}
@@ -32,19 +35,18 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 #resultado{display:none;background:rgba(5,5,30,.9);border-radius:25px;padding:35px;border:3px solid var(--p);margin-top:30px;box-shadow:0 0 60px var(--glow);animation:reveal 1s ease-out}
 @keyframes reveal{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
-.item{display:flex;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--glow);font-size:1.4rem;color:var(--p);text-shadow:0 0 10px var(--p);animation:glitch 3s infinite, slideIn 0.8s ease-out forwards;opacity:0}
-.item:nth-child(1){animation-delay:0.1s}
-.item:nth-child(2){animation-delay:0.2s}
-.item:nth-child(3){animation-delay:0.3s}
-.item:nth-child(4){animation-delay:0.4s}
-.item:nth-child(5){animation-delay:0.5s}
-.item:nth-child(6){animation-delay:0.6s}
+.item{display:flex;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--glow);font-size:1.4rem;color:var(--p);text-shadow:0 0 10px var(--p);animation:glitch 3s infinite,slideIn 0.8s ease-out forwards;opacity:0}
+.item:nth-child(n+1){animation-delay:calc(0.1s * var(--i))}
 @keyframes slideIn{to{opacity:1;transform:translateX(0)}}
 .copy{background:linear-gradient(45deg,var(--p),var(--s));color:#000;padding:10px 18px;border-radius:10px;font-size:1rem;margin-left:15px;cursor:pointer;transition:.3s;font-weight:bold}
 .copy:hover{transform:scale(1.15);box-shadow:0 0 20px #fff}
-.boton-info,.dpi-info{margin-top:30px;padding:25px;background:rgba(0,255,234,.1);border:2px solid var(--glow);border-radius:20px;text-align:center;animation:fadeIn 2s ease-out}
-.copy-all-btn,.share-btn{display:block;margin:20px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
-.copy-all-btn:hover,.share-btn:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
+.boton-info,.dpi-info,.xitada-block{margin-top:30px;padding:25px;background:rgba(0,255,234,.1);border:2px solid var(--glow);border-radius:20px;animation:fadeIn 2s ease-out}
+.xitada-block{background:rgba(255,0,255,.1);border-color:var(--s)}
+.copy-all-btn,.share-btn,.save-preset{display:block;margin:20px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
+.copy-all-btn:hover,.share-btn:hover,.save-preset:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
+.presets{margin-top:40px;padding:30px;background:rgba(10,10,40,.8);border-radius:25px;border:2px solid var(--glow);display:none}
+.preset-item{padding:15px;border-bottom:1px dashed var(--glow);display:flex;justify-content:space-between;align-items:center;font-size:1.2rem}
+.preset-item button{background:transparent;border:1px solid var(--glow);color:var(--p);padding:8px 16px;border-radius:10px;cursor:pointer}
 .music-player{position:fixed;top:20px;right:20px;z-index:10;width:200px;text-align:center}
 .disk{position:relative;width:120px;height:120px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 30% 30%,#00ffea,#000);box-shadow:0 0 40px var(--glow);animation:rotate 15s linear infinite;cursor:pointer}
 .disk::before{content:'';position:absolute;inset:15px;border-radius:50%;background:#000;box-shadow:inset 0 0 30px #000}
@@ -53,19 +55,16 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .controls{margin-top:15px;display:flex;justify-content:center;gap:20px;align-items:center}
 .ctrl-btn{width:45px;height:45px;border-radius:50%;background:#000;border:2px solid var(--glow);box-shadow:0 0 20px var(--glow);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--p);cursor:pointer;transition:.3s}
 .ctrl-btn:hover{transform:scale(1.2);box-shadow:0 0 40px var(--glow)}
-.ctrl-btn.playing{animation:pulse 1.5s infinite}
-.volume-control input[type=range]{width:80px;height:6px;background:rgba(255,255,255,.2);border-radius:5px;outline:none;-webkit-appearance:none}
-.volume-control input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--p);border-radius:50%;box-shadow:0 0 15px var(--glow);cursor:pointer}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,var(--p),var(--s));color:#000;padding:18px 40px;border-radius:15px;font-weight:bold;font-size:1.2rem;z-index:1000;opacity:0;transition:opacity .4s .5s,transform .5s}
-.toast.show{opacity:1}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-20px)}
 @keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{box-shadow:0 0 20px var(--glow)}50%{box-shadow:0 0 50px var(--glow)}}
 @keyframes glitch{0%,100%{text-shadow:0 0 10px var(--p)}5%{text-shadow:4px 4px var(--s),-4px -4px var(--p)}10%{text-shadow:-4px -4px var(--s),4px 4px var(--p)}15%{text-shadow:0 0 20px var(--p)}}
-@media(max-width:768px){.music-player{width:160px;right:10px;top:10px}.disk{width:100px;height:100px}.play-triangle{border-left:20px solid #ff0000;border-top:12px solid transparent;border-bottom:12px solid transparent}.ctrl-btn{width:40px;height:40px;font-size:1.3rem}}
+@media(max-width:768px){.logo{font-size:3.5rem}.music-player{width:160px;right:10px;top:10px}.disk{width:100px;height:100px}}
 </style>
 </head>
 <body>
 <div class="bg"></div>
+<div class="particles" id="particles"></div>
 <div class="music-player">
   <div class="disk" id="disk">
     <div class="play-triangle"></div>
@@ -74,15 +73,14 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
     <div class="ctrl-btn" id="prev">«</div>
     <div class="ctrl-btn" id="play">▶</div>
     <div class="ctrl-btn" id="next">»</div>
-    <div class="volume-control"><input type="range" id="volume" min="0" max="100" value="50"></div>
   </div>
 </div>
-<audio id="audio" loop></audio>
+<audio id="audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 <div class="container">
   <h1 class="logo">CALMATEX</h1>
-  <p class="subtitle">Generador Sensibilidad Free Fire 2026 - Futurista</p>
+  <p class="subtitle">Generador Sensibilidad Free Fire 2026 - Edición Futurista</p>
   <div class="card">
-    <h2>Selecciona Dispositivo y Estilo</h2>
+    <h2>Configura tu Sensi Pro</h2>
     <select id="modelo">
       <option value="mi11">Xiaomi Mi 11 Lite 5G</option>
       <option value="note13">Redmi Note 13 Pro 4G</option>
@@ -93,6 +91,8 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
       <option value="realme12">Realme 12</option>
       <option value="a55">Samsung A55</option>
       <option value="zfold5">Samsung Z Fold 5</option>
+      <option value="motoG84">Moto G84</option>
+      <option value="huaweiP60">Huawei P60</option>
     </select>
     <select id="estilo">
       <option value="equi">Equilibrado</option>
@@ -101,9 +101,9 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
       <option value="camp">Camper</option>
     </select>
     <select id="experiencia">
-      <option value="baja">Experiencia Baja</option>
-      <option value="media">Experiencia Media</option>
-      <option value="alta">Experiencia Alta</option>
+      <option value="baja">Principiante</option>
+      <option value="media">Intermedio</option>
+      <option value="alta">Pro</option>
     </select>
     <button class="btn" id="gen">GENERAR SENSI FUTURISTA</button>
   </div>
@@ -112,106 +112,110 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
     <div id="lista"></div>
     <div class="boton-info" id="boton-info"></div>
     <div class="dpi-info" id="dpi-info"></div>
+    <div class="xitada-block" id="xitada-block">
+      <h3 style="color:var(--s);text-align:center;margin-bottom:20px">Sensi Xitada (+20% Power)</h3>
+      <div id="xitada-lista"></div>
+      <button class="copy-all-btn" id="copy-xitada" style="margin-top:20px;width:100%">COPIAR XITADA</button>
+    </div>
     <button class="copy-all-btn" id="copy-all">COPIAR TODO</button>
-    <button class="share-btn" id="share-wa">COMPARTIR POR WHATSAPP</button>
+    <button class="share-btn" id="share-wa">COMPARTIR WHATSAPP</button>
+    <button class="save-preset" id="save-preset">GUARDAR PRESET</button>
+  </div>
+  <div class="presets" id="presets">
+    <h2 style="margin-bottom:20px">Mis Presets Guardados</h2>
+    <div id="presets-list"></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
-
 <script>
-const tracks = ["musica1.mp3", "musica2.mp3"];
-let currentTrack = 0;
+/* Partículas */
+const particlesContainer = document.getElementById('particles');
+for(let i=0;i<80;i++){
+  const p = document.createElement('div');
+  p.className='particle';
+  p.style.left = Math.random()*100+'%';
+  p.style.animationDelay = Math.random()*8+'s';
+  p.style.animationDuration = (Math.random()*6+6)+'s';
+  particlesContainer.appendChild(p);
+}
+/* Música */
 const audio = document.getElementById('audio');
 const disk = document.getElementById('disk');
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
-const volumeSlider = document.getElementById('volume');
 let playing = false;
-
-function loadTrack(index) {
-  audio.src = tracks[index];
-  if (playing) audio.play();
-}
-
-prevBtn.addEventListener('click', () => {
-  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-  loadTrack(currentTrack);
-});
-
-nextBtn.addEventListener('click', () => {
-  currentTrack = (currentTrack + 1) % tracks.length;
-  loadTrack(currentTrack);
-});
-
 playBtn.addEventListener('click', () => {
-  if (playing) {
-    audio.pause();
-    playBtn.textContent = '▶';
-    disk.style.animationPlayState = 'paused';
-  } else {
-    audio.play();
-    playBtn.textContent = '❚ ❚';
-    disk.style.animationPlayState = 'running';
-  }
-  playing = !playing;
+  if (playing) {audio.pause();playBtn.textContent='▶';disk.style.animationPlayState='paused';}
+  else {audio.play();playBtn.textContent='❚ ❚';disk.style.animationPlayState='running';}
+  playing=!playing;
 });
-
-disk.addEventListener('click', () => playBtn.click());
-
-volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value / 100);
-
-loadTrack(currentTrack);
-audio.volume = volumeSlider.value / 100;
-
-/* Sensibilidad código */
-const base={mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}}};
+disk.addEventListener('click',()=>playBtn.click());
+audio.volume=0.5;
+/* Sensibilidad */
+const base={mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}},motoG84:{g:138,p:152,x2:148,x4:135,f:118,c:125,dpi:788,btn:{tam:72,op:82,lado:'Derecha'}},huaweiP60:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:68,op:85,lado:'Derecha'}}};
 const mods={equi:{},rush:{g:15,p:20,x2:18,x4:15,f:10,c:25,btn:{tam:-5,op:5}},hs:{g:-5,p:10,x2:8,x4:5,f:15,c:-10,btn:{tam:-3,op:3}},camp:{g:-10,p:-15,x2:-12,x4:-10,f:5,c:-20,btn:{tam:5,op:-5}}};
 const expMods={baja:{g:-15,p:-20,x2:-18,x4:-15,f:-20,c:-25,btn:{tam:8,op:-8}},media:{},alta:{g:15,p:20,x2:18,x4:15,f:20,c:25,btn:{tam:-6,op:6}}};
 const labels=['General','Precisión','Mira x2','Mira x4','Francotirador','Cámara Libre'];
-let last="", currentConfig="";
+const PRESET_KEY='calmatex_presets';
+let presets=[], last="", currentConfig="", currentXitada="";
 function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
 function genSensi(m,e,xp){
   const b=base[m]||base.mi11;
   const modStyle=mods[e]||{};
   const modExp=expMods[xp]||{};
   const k=['g','p','x2','x4','f','c'];
-  let s={};
-  k.forEach(t=>{let v=Math.max(0,Math.min(200,Math.round(b[t]+(modStyle[t]||0)+(modExp[t]||0)+rand(-10,10))));s[t]=v});
-  const str=Object.values(s).join(',');
-  if(str===last){return genSensi(m,e,xp);}
+  let s={}, str="";
+  do{k.forEach(t=>{let v=Math.max(0,Math.min(200,Math.round(b[t]+(modStyle[t]||0)+(modExp[t]||0)+rand(-10,10))));s[t]=v});str=Object.values(s).join(',');}while(str===last);
   last=str;
   const bt={tam:Math.max(65,Math.min(85,Math.round(b.btn.tam+(modStyle.btn?.tam||0)+(modExp.btn?.tam||0)+rand(-4,4)))),op:Math.max(70,Math.min(90,Math.round(b.btn.op+(modStyle.btn?.op||0)+(modExp.btn?.op||0)+rand(-3,3)))),lado:b.btn.lado};
   const full=`General: ${s.g} | Precisión: ${s.p} | x2: ${s.x2} | x4: ${s.x4} | Franco: ${s.f} | Cámara: ${s.c} | Botón: ${bt.lado} ${bt.tam} ${bt.op}% | DPI: ${b.dpi}`;
   currentConfig=full;
-  return {g:s.g,p:s.p,x2:s.x2,x4:s.x4,f:s.f,c:s.c,dpi:b.dpi,btn:bt};
+  const xitadaVals = k.map(t=>Math.min(200,s[t]+20));
+  const xitadaStr = `General: ${xitadaVals[0]} | Precisión: ${xitadaVals[1]} | x2: ${xitadaVals[2]} | x4: ${xitadaVals[3]} | Franco: ${xitadaVals[4]} | Cámara: ${xitadaVals[5]}`;
+  currentXitada=xitadaStr;
+  return {g:s.g,p:s.p,x2:s.x2,x4:s.x4,f:s.f,c:s.c,dpi:b.dpi,btn:bt,xitada:xitadaVals};
 }
 function gen(){
-  const genBtn = document.getElementById('gen');
-  genBtn.classList.add('loading');
-  setTimeout(() => {
-    const m=document.getElementById('modelo').value;
-    const e=document.getElementById('estilo').value;
-    const xp=document.getElementById('experiencia').value;
+  const genBtn=document.getElementById('gen');genBtn.classList.add('loading');
+  setTimeout(()=>{const m=document.getElementById('modelo').value;const e=document.getElementById('estilo').value;const xp=document.getElementById('experiencia').value;
     const s=genSensi(m,e,xp);
-    let html='';
-    const vals = [s.g,s.p,s.x2,s.x4,s.f,s.c];
-    labels.forEach((l,i)=>{
-      html+=`<div class="item" style="transform:translateX(-50px)"><span>${l}</span><span>${vals[i]} <span class="copy" onclick="copy(${vals[i]})">COPIAR</span></span></div>`;
-    });
+    let html='';const vals=[s.g,s.p,s.x2,s.x4,s.f,s.c];
+    labels.forEach((l,i)=>{html+=`<div class="item" style="--i:${i+1}"><span>${l}</span><span>${vals[i]} <span class="copy" onclick="copy(${vals[i]})">COPIAR</span></span></div>`;});
     document.getElementById('lista').innerHTML=html;
     document.getElementById('boton-info').innerHTML=`<h3 style="color:var(--p)">Botón Disparo</h3><div class="item"><span>Lado / Tamaño / Opacidad</span><span>${s.btn.lado} / ${s.btn.tam} / ${s.btn.op}% <span class="copy" onclick="copyBot('${s.btn.lado} | ${s.btn.tam} | ${s.btn.op}')">COPIAR</span></span></div>`;
     document.getElementById('dpi-info').innerHTML=`DPI: ${s.dpi} <span class="copy" onclick="copy(${s.dpi})">COPIAR</span>`;
+    let xhtml='';labels.forEach((l,i)=>{xhtml+=`<div class="item"><span>${l}</span><span>${s.xitada[i]} <span class="copy" onclick="copy(${s.xitada[i]})">COPIAR</span></span></div>`;});
+    document.getElementById('xitada-lista').innerHTML=xhtml;
     document.getElementById('resultado').style.display='block';
     genBtn.classList.remove('loading');
-  }, 800);
+  },800);
 }
 function copy(v){navigator.clipboard.writeText(v);toast('Copiado!');}
 function copyBot(v){navigator.clipboard.writeText(v);toast('Botón copiado!');}
 document.getElementById('copy-all').onclick=()=>{navigator.clipboard.writeText(currentConfig);toast('Todo copiado!');};
-document.getElementById('share-wa').onclick=()=>{const text=encodeURIComponent(currentConfig);window.open(`https://wa.me/?text=${text}`, '_blank');toast('Abriendo WhatsApp!');};
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-document.getElementById('gen').addEventListener('click',gen);
+document.getElementById('copy-xitada').onclick=()=>{navigator.clipboard.writeText(currentXitada);toast('Xitada copiada!');};
+document.getElementById('share-wa').onclick=()=>{const text=encodeURIComponent(currentConfig+'\n\nXitada: '+currentXitada);window.open(`https://wa.me/?text=${text}`,'_blank');toast('Abriendo WhatsApp!');};
+function savePreset(){
+  const name=prompt('Nombre del preset:');if(!name)return;
+  presets.push({name,date:new Date().toLocaleString(),config:currentConfig,xitada:currentXitada});
+  localStorage.setItem(PRESET_KEY,JSON.stringify(presets));
+  renderPresets();toast('Preset guardado!');
+}
+function renderPresets(){
+  try{presets=JSON.parse(localStorage.getItem(PRESET_KEY))||[];}catch(e){presets=[];}
+  const list=document.getElementById('presets-list');
+  if(presets.length===0){document.getElementById('presets').style.display='none';return;}
+  document.getElementById('presets').style.display='block';
+  list.innerHTML='';
+  presets.forEach((p,i)=>{const div=document.createElement('div');div.className='preset-item';
+    div.innerHTML=`<span><strong>${p.name}</strong><br><small>${p.date}</small></span><button onclick="navigator.clipboard.writeText('${p.config}\\n\\nXitada: ${p.xitada}');toast('Preset copiado!')">COPIAR</button>`;
+    list.appendChild(div);
+  });
+}
+document.getElementById('save-preset').onclick=savePreset;
+document.getElementById('gen').onclick=gen;
+renderPresets();
 </script>
 </body>
 </html>
