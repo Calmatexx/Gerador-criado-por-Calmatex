@@ -75,7 +75,7 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
     <div class="ctrl-btn" id="next">»</div>
   </div>
 </div>
-<audio id="audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+<audio id="audio" loop></audio>
 <div class="container">
   <h1 class="logo">CALMATEX</h1>
   <p class="subtitle">Generador Sensibilidad Free Fire 2026 - Edición Futurista</p>
@@ -139,19 +139,41 @@ for(let i=0;i<80;i++){
   particlesContainer.appendChild(p);
 }
 /* Música */
+const tracks = ["musica1.mp3", "musica2.mp3"];
+let currentTrack = 0;
 const audio = document.getElementById('audio');
 const disk = document.getElementById('disk');
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 let playing = false;
-playBtn.addEventListener('click', () => {
-  if (playing) {audio.pause();playBtn.textContent='▶';disk.style.animationPlayState='paused';}
-  else {audio.play();playBtn.textContent='❚ ❚';disk.style.animationPlayState='running';}
-  playing=!playing;
+function loadTrack(index) {
+  audio.src = tracks[index];
+  if (playing) audio.play();
+}
+prevBtn.addEventListener('click', () => {
+  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+  loadTrack(currentTrack);
 });
-disk.addEventListener('click',()=>playBtn.click());
-audio.volume=0.5;
+nextBtn.addEventListener('click', () => {
+  currentTrack = (currentTrack + 1) % tracks.length;
+  loadTrack(currentTrack);
+});
+playBtn.addEventListener('click', () => {
+  if (playing) {
+    audio.pause();
+    playBtn.textContent = '▶';
+    disk.style.animationPlayState = 'paused';
+  } else {
+    audio.play();
+    playBtn.textContent = '❚ ❚';
+    disk.style.animationPlayState = 'running';
+  }
+  playing = !playing;
+});
+disk.addEventListener('click', () => playBtn.click());
+loadTrack(currentTrack);
+audio.volume = 0.5;
 /* Sensibilidad */
 const base={mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}},motoG84:{g:138,p:152,x2:148,x4:135,f:118,c:125,dpi:788,btn:{tam:72,op:82,lado:'Derecha'}},huaweiP60:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:68,op:85,lado:'Derecha'}}};
 const mods={equi:{},rush:{g:15,p:20,x2:18,x4:15,f:10,c:25,btn:{tam:-5,op:5}},hs:{g:-5,p:10,x2:8,x4:5,f:15,c:-10,btn:{tam:-3,op:3}},camp:{g:-10,p:-15,x2:-12,x4:-10,f:5,c:-20,btn:{tam:5,op:-5}}};
