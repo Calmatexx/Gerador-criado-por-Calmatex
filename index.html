@@ -42,16 +42,15 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .copy:hover{transform:scale(1.15);box-shadow:0 0 20px #fff}
 .boton-info,.dpi-info,.xitada-block{margin-top:30px;padding:25px;background:rgba(0,255,234,.1);border:2px solid var(--glow);border-radius:20px;animation:fadeIn 2s ease-out}
 .xitada-block{background:rgba(255,0,255,.1);border-color:var(--s)}
-.copy-all-btn,.share-btn,.save-preset{display:block;margin:20px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
-.copy-all-btn:hover,.share-btn:hover,.save-preset:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
+.copy-all-btn,.share-btn,.save-preset,.random-all{display:block;margin:20px auto 0;width:90%;padding:22px;background:linear-gradient(45deg,var(--p),var(--s));color:#000;border:none;border-radius:20px;font-family:Orbitron,sans-serif;font-size:1.6rem;cursor:pointer;box-shadow:0 0 40px var(--glow);font-weight:900;transition:.3s}
+.copy-all-btn:hover,.share-btn:hover,.save-preset:hover,.random-all:hover{transform:scale(1.1);box-shadow:0 0 70px var(--glow)}
+.random-all{background:linear-gradient(45deg,#ff3300,#ff0066)}
 .presets{margin-top:40px;padding:30px;background:rgba(10,10,40,.8);border-radius:25px;border:2px solid var(--glow);display:none}
 .preset-item{padding:15px;border-bottom:1px dashed var(--glow);display:flex;justify-content:space-between;align-items:center;font-size:1.2rem}
 .preset-item button{background:transparent;border:1px solid var(--glow);color:var(--p);padding:8px 16px;border-radius:10px;cursor:pointer}
 .music-player{position:fixed;top:20px;right:20px;z-index:10;width:200px;text-align:center}
-.disk{position:relative;width:120px;height:120px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 30% 30%,#00ffea,#000);box-shadow:0 0 40px var(--glow);animation:rotate 15s linear infinite;cursor:pointer}
-.disk::before{content:'';position:absolute;inset:15px;border-radius:50%;background:#000;box-shadow:inset 0 0 30px #000}
-.disk::after{content:'CALMATEX';position:absolute;inset:0;color:var(--p);font-family:Orbitron,sans-serif;font-size:1rem;font-weight:900;animation:rotate 15s linear reverse infinite;display:flex;align-items:center;justify-content:center;text-shadow:0 0 15px var(--glow)}
-.play-triangle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:25px solid #ff0000;border-top:15px solid transparent;border-bottom:15px solid transparent;z-index:2}
+.disk{position:relative;width:120px;height:120px;margin:0 auto;border-radius:50%;overflow:hidden;box-shadow:0 0 40px var(--glow);animation:rotate 15s linear infinite;cursor:pointer}
+.disk img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .controls{margin-top:15px;display:flex;justify-content:center;gap:20px;align-items:center}
 .ctrl-btn{width:45px;height:45px;border-radius:50%;background:#000;border:2px solid var(--glow);box-shadow:0 0 20px var(--glow);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--p);cursor:pointer;transition:.3s}
 .ctrl-btn:hover{transform:scale(1.2);box-shadow:0 0 40px var(--glow)}
@@ -67,7 +66,7 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 <div class="particles" id="particles"></div>
 <div class="music-player">
   <div class="disk" id="disk">
-    <div class="play-triangle"></div>
+    <img src="imagen1.jpg" alt="Portada música">
   </div>
   <div class="controls">
     <div class="ctrl-btn" id="prev">«</div>
@@ -105,15 +104,16 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
       <option value="media">Intermedio</option>
       <option value="alta">Pro</option>
     </select>
-    <button class="btn" id="gen">GENERAR SENSI FUTURISTA</button>
+    <button class="btn" id="gen">GENERAR SENSI PRO</button>
+    <button class="random-all" id="random-all">RANDOM ALL EXTREMO FF</button>
   </div>
   <div id="resultado">
-    <h2>Configuración 2026</h2>
+    <h2>Configuración Free Fire 2026</h2>
     <div id="lista"></div>
     <div class="boton-info" id="boton-info"></div>
     <div class="dpi-info" id="dpi-info"></div>
     <div class="xitada-block" id="xitada-block">
-      <h3 style="color:var(--s);text-align:center;margin-bottom:20px">Sensi Xitada (+20% Power)</h3>
+      <h3 style="color:var(--s);text-align:center;margin-bottom:20px">Sensi Xitada (+20% Power FF)</h3>
       <div id="xitada-lista"></div>
       <button class="copy-all-btn" id="copy-xitada" style="margin-top:20px;width:100%">COPIAR XITADA</button>
     </div>
@@ -198,6 +198,25 @@ function genSensi(m,e,xp){
   currentXitada=xitadaStr;
   return {g:s.g,p:s.p,x2:s.x2,x4:s.x4,f:s.f,c:s.c,dpi:b.dpi,btn:bt,xitada:xitadaVals};
 }
+function genRandomAll(){
+  const genBtn=document.getElementById('random-all');genBtn.classList.add('loading');
+  setTimeout(()=>{
+    const s={g:rand(80,200),p:rand(80,200),x2:rand(80,200),x4:rand(70,190),f:rand(50,180),c:rand(100,200)};
+    const dpi=rand(400,1000);
+    const bt={tam:rand(60,90),op:rand(70,100),lado:Math.random()>0.5?'Derecha':'Izquierda'};
+    const full=`General: ${s.g} | Precisión: ${s.p} | x2: ${s.x2} | x4: ${s.x4} | Franco: ${s.f} | Cámara: ${s.c} | Botón: ${bt.lado} ${bt.tam} ${bt.op}% | DPI: ${dpi}`;
+    currentConfig=full;
+    let html='';const vals=[s.g,s.p,s.x2,s.x4,s.f,s.c];
+    labels.forEach((l,i)=>{html+=`<div class="item" style="--i:${i+1}"><span>${l}</span><span>${vals[i]} <span class="copy" onclick="copy(${vals[i]})">COPIAR</span></span></div>`;});
+    document.getElementById('lista').innerHTML=html;
+    document.getElementById('boton-info').innerHTML=`<h3 style="color:var(--p)">Botón Disparo EXTREMO</h3><div class="item"><span>Lado / Tamaño / Opacidad</span><span>${bt.lado} / ${bt.tam} / ${bt.op}% <span class="copy" onclick="copyBot('${bt.lado} | ${bt.tam} | ${bt.op}')">COPIAR</span></span></div>`;
+    document.getElementById('dpi-info').innerHTML=`DPI EXTREMO: ${dpi} <span class="copy" onclick="copy(${dpi})">COPIAR</span>`;
+    document.getElementById('xitada-block').style.display='none';
+    document.getElementById('resultado').style.display='block';
+    genBtn.classList.remove('loading');
+    toast('¡RANDOM ALL EXTREMO GENERADO!');
+  },800);
+}
 function gen(){
   const genBtn=document.getElementById('gen');genBtn.classList.add('loading');
   setTimeout(()=>{const m=document.getElementById('modelo').value;const e=document.getElementById('estilo').value;const xp=document.getElementById('experiencia').value;
@@ -209,6 +228,7 @@ function gen(){
     document.getElementById('dpi-info').innerHTML=`DPI: ${s.dpi} <span class="copy" onclick="copy(${s.dpi})">COPIAR</span>`;
     let xhtml='';labels.forEach((l,i)=>{xhtml+=`<div class="item"><span>${l}</span><span>${s.xitada[i]} <span class="copy" onclick="copy(${s.xitada[i]})">COPIAR</span></span></div>`;});
     document.getElementById('xitada-lista').innerHTML=xhtml;
+    document.getElementById('xitada-block').style.display='block';
     document.getElementById('resultado').style.display='block';
     genBtn.classList.remove('loading');
   },800);
@@ -237,6 +257,7 @@ function renderPresets(){
 }
 document.getElementById('save-preset').onclick=savePreset;
 document.getElementById('gen').onclick=gen;
+document.getElementById('random-all').onclick=genRandomAll;
 renderPresets();
 </script>
 </body>
