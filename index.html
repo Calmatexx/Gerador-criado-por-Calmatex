@@ -55,6 +55,8 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .controls{margin-top:15px;display:flex;justify-content:center;gap:20px;align-items:center}
 .ctrl-btn{width:45px;height:45px;border-radius:50%;background:#000;border:2px solid var(--glow);box-shadow:0 0 20px var(--glow);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--p);cursor:pointer;transition:.3s}
 .ctrl-btn:hover{transform:scale(1.2);box-shadow:0 0 40px var(--glow)}
+.show-music-btn{display:none;position:fixed;bottom:30px;right:20px;width:60px;height:60px;background:var(--p);border-radius:50%;box-shadow:0 0 30px var(--glow);color:#000;font-size:2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:11;transition:.3s}
+.show-music-btn:hover{transform:scale(1.2)}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,var(--p),var(--s));color:#000;padding:18px 40px;border-radius:15px;font-weight:bold;font-size:1.2rem;z-index:1000;opacity:0;transition:opacity .4s .5s,transform .5s}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(-20px)}
 @keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
@@ -73,6 +75,7 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
   .controls{gap:15px}
   .ctrl-btn{width:38px;height:38px;font-size:1.3rem}
   .container{padding:15px}
+  .show-music-btn{display:flex}
 }
 @media(max-width:480px){
   .logo{font-size:2.8rem;margin:30px 0}
@@ -96,6 +99,7 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
     <div class="ctrl-btn" id="next">»</div>
   </div>
 </div>
+<button class="show-music-btn" id="show-music">♪</button>
 <audio id="audio" loop></audio>
 <div class="container">
   <h1 class="logo">CALMATEX</h1>
@@ -171,6 +175,7 @@ const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const musicPlayer = document.getElementById('music-player');
+const showMusicBtn = document.getElementById('show-music');
 let playing = false;
 function loadTrack(index) {
   audio.src = tracks[index];
@@ -204,6 +209,12 @@ if (window.innerWidth <= 768) {
   setTimeout(() => {
     musicPlayer.classList.add('hidden');
   }, 3000);
+  showMusicBtn.addEventListener('click', () => {
+    musicPlayer.classList.remove('hidden');
+    setTimeout(() => {
+      musicPlayer.classList.add('hidden');
+    }, 10000); // Se oculta de nuevo después de 10s de inactividad
+  });
 }
 /* Sensibilidad */
 const base={mi11:{g:155,p:170,x2:165,x4:150,f:135,c:140,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},note13:{g:132,p:144,x2:138,x4:128,f:112,c:118,dpi:788,btn:{tam:74,op:79,lado:'Derecha'}},note8:{g:175,p:150,x2:150,x4:180,f:120,c:200,dpi:788,btn:{tam:82,op:70,lado:'Derecha'}},s24:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:70,op:85,lado:'Derecha'}},iphone15:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:411,btn:{tam:65,op:90,lado:'Derecha'}},pocoX6:{g:148,p:162,x2:158,x4:143,f:128,c:132,dpi:888,btn:{tam:68,op:87,lado:'Derecha'}},realme12:{g:152,p:167,x2:162,x4:147,f:132,c:137,dpi:888,btn:{tam:66,op:89,lado:'Derecha'}},a55:{g:125,p:138,x2:132,x4:122,f:105,c:110,dpi:788,btn:{tam:75,op:80,lado:'Derecha'}},zfold5:{g:150,p:165,x2:160,x4:145,f:130,c:135,dpi:888,btn:{tam:65,op:90,lado:'Derecha'}},motoG84:{g:138,p:152,x2:148,x4:135,f:118,c:125,dpi:788,btn:{tam:72,op:82,lado:'Derecha'}},huaweiP60:{g:145,p:160,x2:155,x4:140,f:125,c:130,dpi:888,btn:{tam:68,op:85,lado:'Derecha'}}};
