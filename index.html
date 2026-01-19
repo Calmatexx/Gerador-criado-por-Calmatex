@@ -47,7 +47,9 @@ select:hover{box-shadow:0 0 30px rgba(255,0,255,.6)}
 .random-all{background:linear-gradient(45deg,#ff3300,#ff0066)}
 .presets{margin-top:40px;padding:30px;background:rgba(10,10,40,.8);border-radius:25px;border:2px solid var(--glow);display:none}
 .preset-item{padding:15px;border-bottom:1px dashed var(--glow);display:flex;justify-content:space-between;align-items:center;font-size:1.2rem}
-.preset-item button{background:transparent;border:1px solid var(--glow);color:var(--p);padding:8px 16px;border-radius:10px;cursor:pointer}
+.preset-item button{background:transparent;border:1px solid var(--glow);color:var(--p);padding:8px 16px;border-radius:10px;cursor:pointer;margin-left:8px}
+.preset-item .delete-btn{border-color:#ff3300;color:#ff3300}
+.preset-item .delete-btn:hover{background:#ff3300;color:#000}
 .music-player{position:fixed;top:20px;right:20px;z-index:10;width:200px;text-align:center;transition:opacity .5s ease}
 .music-player.hidden{opacity:0;pointer-events:none}
 .disk{position:relative;width:120px;height:120px;margin:0 auto;border-radius:50%;overflow:hidden;box-shadow:0 0 40px var(--glow);animation:rotate 15s linear infinite;cursor:pointer}
@@ -291,6 +293,11 @@ function savePreset(){
   localStorage.setItem(PRESET_KEY,JSON.stringify(presets));
   renderPresets();toast('Preset guardado!');
 }
+function deletePreset(index){
+  presets.splice(index,1);
+  localStorage.setItem(PRESET_KEY,JSON.stringify(presets));
+  renderPresets();toast('Preset borrado!');
+}
 function renderPresets(){
   try{presets=JSON.parse(localStorage.getItem(PRESET_KEY))||[];}catch(e){presets=[];}
   const list=document.getElementById('presets-list');
@@ -298,7 +305,11 @@ function renderPresets(){
   document.getElementById('presets').style.display='block';
   list.innerHTML='';
   presets.forEach((p,i)=>{const div=document.createElement('div');div.className='preset-item';
-    div.innerHTML=`<span><strong>${p.name}</strong><br><small>${p.date}</small></span><button onclick="navigator.clipboard.writeText('${p.config}\\n\\nXitada: ${p.xitada}');toast('Preset copiado!')">COPIAR</button>`;
+    div.innerHTML=`<span><strong>${p.name}</strong><br><small>${p.date}</small></span>
+      <div>
+        <button onclick="navigator.clipboard.writeText('${p.config}\\n\\nXitada: ${p.xitada}');toast('Preset copiado!')">COPIAR</button>
+        <button class="delete-btn" onclick="deletePreset(${i})">BORRAR</button>
+      </div>`;
     list.appendChild(div);
   });
 }
